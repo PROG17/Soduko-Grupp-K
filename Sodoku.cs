@@ -65,7 +65,7 @@ namespace Soduko
 
 
         }
-        // Metod för att lösa Sodokut
+        // Metod för att lösa Sodokut -Ej färdigt
 
 
 
