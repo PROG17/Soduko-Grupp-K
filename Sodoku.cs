@@ -61,7 +61,7 @@ namespace Soduko
                 Console.WriteLine();
             }
 
-                   
+            Console.WriteLine();      
 
 
         }
@@ -73,11 +73,12 @@ namespace Soduko
         {
             foreach (var item in allCells)
             {
-                if (item.Number != '0')
-                {
-                    ReducePossibleNumbers(item.Row, item.Column, item.Number);
-                }
+                
+
+                ReducePossibleNumbers(item.Row, item.Column, item.Number);
+                
             }
+
         }
 
         //// Metod för att reducera möjliga siffror
@@ -90,22 +91,34 @@ namespace Soduko
             //activeCell.Number = num;
 
 
-            foreach (var item in allCells.Where(item => (item.Row == row))) // Reducera möjliga nummer för alla celler i samma rad
+            foreach (var item in allCells.Where(item => (item.Row == row) && (item.Solved == false))) // Reducera möjliga nummer för alla celler i samma rad
             {
                 item.PossibleNumbers.Remove(num);
+                    if (item.PossibleNumbers.Count == 1)
+                    {
+                        item.Number = item.PossibleNumbers[0];
+                    }
 
             }
 
-            foreach (var item in allCells.Where(item => (item.Column == col))) // Reducera möjliga nummer för alla celler i samma kolumn
+            foreach (var item in allCells.Where(item => (item.Column == col) && (item.Solved == false))) // Reducera möjliga nummer för alla celler i samma kolumn
             {
                 item.PossibleNumbers.Remove(num);
+                    if (item.PossibleNumbers.Count == 1)
+                    {
+                        item.Number = item.PossibleNumbers[0];
+                    }
 
             }
 
-            foreach (var item in allCells.Where(item => (item.Block == activeCell.Block))) // Reducera möjliga nummer för alla celler i samma block
+            foreach (var item in allCells.Where(item => (item.Block == activeCell.Block) && (item.Solved == false))) // Reducera möjliga nummer för alla celler i samma block
             {
                 item.PossibleNumbers.Remove(num);
-               
+                    if (item.PossibleNumbers.Count == 1)
+                     {
+                        item.Number = item.PossibleNumbers[0];
+                     }
+
             }
 
 

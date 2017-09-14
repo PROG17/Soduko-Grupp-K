@@ -14,6 +14,8 @@ namespace Soduko
         private int column;
         private List<char> possibleNumbers = new List<char> () { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         private char number;
+        private bool solved;
+
         public enum Blocks { A, B , C , D, E, F, G, H, I}
 
 
@@ -59,6 +61,35 @@ namespace Soduko
         public int Column { get => column; set => column = value; }
         public char Number { get => number; set => number = value; }
 
+        public bool Solved
+        {
+            get
+            {
+                if (Number != '0')
+                {
+                    return solved = true;
+                }
+                return solved = false;
+            }
+            set { this.solved = value; }
+
+        }
+
+        //public char Number
+        //{
+        //    get
+        //    {
+        //        if (PossibleNumbers.Count == 1)
+        //        {
+        //            return Number = possibleNumbers[0];
+        //        }
+        //        return Number;
+        //    }
+        //    set { this.number = value; }
+
+        //}
+
+
 
         // Constructor
 
@@ -67,6 +98,7 @@ namespace Soduko
             this.Column = column;
             this.Row = row;
             this.Number = value;
+            
         }
 
         // Method for printing possiblNumbers
