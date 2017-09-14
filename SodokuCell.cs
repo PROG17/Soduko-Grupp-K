@@ -12,13 +12,12 @@ namespace Soduko
 
         private int row;
         private int column;
-        private List<char> possibleNumbers = new List<char> () { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        private List<char> possibleNumbers;
         private char number;
         private bool solved;
 
-        public enum Blocks { A, B , C , D, E, F, G, H, I}
-
-
+        public enum Blocks { A, B, C, D, E, F, G, H, I}
+                
         
         // Properties
         
@@ -75,22 +74,6 @@ namespace Soduko
 
         }
 
-        //public char Number
-        //{
-        //    get
-        //    {
-        //        if (PossibleNumbers.Count == 1)
-        //        {
-        //            return Number = possibleNumbers[0];
-        //        }
-        //        return Number;
-        //    }
-        //    set { this.number = value; }
-
-        //}
-
-
-
         // Constructor
 
         public SodokuCell(int row, int column, char value)
@@ -98,7 +81,15 @@ namespace Soduko
             this.Column = column;
             this.Row = row;
             this.Number = value;
-            
+                if (value == '0')
+                {
+                    this.possibleNumbers = new List<char>() { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+                }
+                else
+                {
+                    this.possibleNumbers = new List<char>() { value };
+            }
+
         }
 
         // Method for printing possiblNumbers

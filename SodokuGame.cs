@@ -10,33 +10,14 @@ namespace Soduko
     {
         static void Main(string[] args)
         {
-            Sodoku game = new Sodoku("619030040270061008000047621486302079000014580031009060005720806320106057160400030");
-            //string str = "619030040270061008000047621486302079000014580031009060005720806320106057160400030";
-
-            
+            Sodoku game = new Sodoku("003020600900305001001806400008102900700000008006708200002609500800203009005010300");
             game.PrintBoard();
 
             game.Solve();
 
             game.PrintBoard();
 
-            game.Solve();
-
-
-
-
-            //game.ReducePossibleNumbers(1, 1, '0');
-
-
-            foreach (var item in game.AllCells)
-            {
-                Console.Write(item.PossibleNumbers.Count());
-            }
-
-            
-
-
-
+ 
         }
     }
 }

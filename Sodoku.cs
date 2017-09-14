@@ -65,20 +65,25 @@ namespace Soduko
 
 
         }
-        // Metod för att lösa Sodokut -Ej färdigt
+        // Metod för att lösa Sodokut
 
 
 
         public void Solve()
         {
-            foreach (var item in allCells)
+            int count = 0;
+            while (count < 81)
             {
-                
+                count = 0;
+                foreach (var item in allCells)
+                {
 
-                ReducePossibleNumbers(item.Row, item.Column, item.Number);
+                    ReducePossibleNumbers(item.Row, item.Column, item.Number);
+                    if (item.PossibleNumbers.Count == 1) { count++; }
+                }
+
                 
             }
-
         }
 
         //// Metod för att reducera möjliga siffror
