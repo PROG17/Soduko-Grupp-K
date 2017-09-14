@@ -22,7 +22,14 @@ namespace Soduko
             //Console.WriteLine(game.AllCells.
             game.PrintBoard();
 
-            
+            game.Solve();
+
+            //game.ReducePossibleNumbers(1, 1, '0');
+
+            foreach (var item in game.AllCells)
+            {
+                Console.WriteLine(item.PossibleNumbers.Count());
+            }
 
 
             //game.AllCells[0].PossibleNumbers.RemoveAll;
@@ -37,7 +44,7 @@ namespace Soduko
             //game.Solve();
             //Console.WriteLine(game.BoardAsText);
 
-            
+
         }
     }
 }

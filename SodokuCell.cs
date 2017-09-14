@@ -12,7 +12,7 @@ namespace Soduko
 
         private int row;
         private int column;
-        private List<int> possibleNumbers = new List<int> () { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        private List<char> possibleNumbers = new List<char> () { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         private char number;
         public enum Blocks { A, B , C , D, E, F, G, H, I}
 
@@ -50,7 +50,7 @@ namespace Soduko
             }
         }
 
-        public List<int> PossibleNumbers
+        public List<char> PossibleNumbers
         {
             get { return possibleNumbers; }
         }
@@ -69,6 +69,15 @@ namespace Soduko
             this.Number = value;
         }
 
+        // Method for printing possiblNumbers
+
+        public void PrintPossibleNumbers ()
+        {
+            foreach (var item in possibleNumbers)
+            {
+                Console.WriteLine(item);
+            }
+        }
 
     }
 }

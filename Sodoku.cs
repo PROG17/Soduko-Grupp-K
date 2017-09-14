@@ -69,23 +69,47 @@ namespace Soduko
 
 
 
-        //public void Solve ()
-        //{
-        //    foreach (var item in allCells)
-        //    {
-        //        ReducePossibleNumbers(item.Row, item.Column, item.Number);
-        //    }
-        //}
+        public void Solve()
+        {
+            foreach (var item in allCells)
+            {
+                if (item.Number != '0')
+                {
+                    ReducePossibleNumbers(item.Row, item.Column, item.Number);
+                }
+            }
+        }
 
         //// Metod för att reducera möjliga siffror
 
-        //public void ReducePossibleNumbers (int row, int col, char num)
-        //{
-        //    foreach (var item in allCells.Where(       //(x => (x.Row == i)))
-        //    {
-        //        Console.Write(item.Number + " ");
-        //    }
-        //}
+        public void ReducePossibleNumbers(int row, int col, char num)
+        {
+
+            SodokuCell activeCell = allCells.Single(x => (x.Row == row) && (x.Column == col));
+
+            //activeCell.Number = num;
+
+
+            foreach (var item in allCells.Where(item => (item.Row == row))) // Reducera möjliga nummer för alla celler i samma rad
+            {
+                item.PossibleNumbers.Remove(num);
+
+            }
+
+            foreach (var item in allCells.Where(item => (item.Column == col))) // Reducera möjliga nummer för alla celler i samma kolumn
+            {
+                item.PossibleNumbers.Remove(num);
+
+            }
+
+            foreach (var item in allCells.Where(item => (item.Block == activeCell.Block))) // Reducera möjliga nummer för alla celler i samma block
+            {
+                item.PossibleNumbers.Remove(num);
+               
+            }
+
+
+        }
 
 
 
