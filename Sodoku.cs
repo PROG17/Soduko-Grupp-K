@@ -52,17 +52,22 @@ namespace Soduko
         }
         // Metod för att skriva ut brädet
 
-        public void PrintBoard()
+        public void BoardAsText()
         {
 
-            for (int i = 1; i < 10; i++)
+           Console.WriteLine("---------------------");      
+            
+
+            foreach (var item in AllCells)
             {
-                foreach (var item in allCells.FindAll(x => (x.Row == i))) { Console.Write(item.Number + " "); }
-                Console.WriteLine();
+                Console.Write(item.Number + " ");
+                if ((item.Column % 3 == 0) && (item.Column != 9)) { Console.Write("| "); }
+                if (item.Column % 9 == 0) { Console.WriteLine(); }
+
+                if ((item.Row % 3 == 0) && (item.Column % 9 == 0)) { Console.WriteLine("---------------------"); }
             }
-
-            Console.WriteLine();      
-
+            
+            
 
         }
         // Metod för att lösa Sodokut
@@ -80,6 +85,7 @@ namespace Soduko
 
                     ReducePossibleNumbers(item.Row, item.Column, item.Number);
                     if (item.PossibleNumbers.Count == 1) { count++; }
+
                 }
 
                 
