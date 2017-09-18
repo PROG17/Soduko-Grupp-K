@@ -77,19 +77,33 @@ namespace Soduko
         public void Solve()
         {
             int count = 0;
-            while (count < 81)
+            int prevcount = 0;
+            bool test = true;
+
+            while ((count < 81) && test == true)
             {
                 count = 0;
                 foreach (var item in allCells)
                 {
 
                     ReducePossibleNumbers(item.Row, item.Column, item.Number);
-                    if (item.PossibleNumbers.Count == 1) { count++; }
+                    if (item.PossibleNumbers.Count == 1)
+                    {
+                        count++;
+                        Console.WriteLine(count);
+                    }
 
                 }
-
+                if (prevcount == count)
+                {
+                    test = false;
+                    Console.WriteLine("Unsolvable!");
+                }
+                prevcount = count;
+                
                 
             }
+            
         }
 
         //// Metod för att reducera möjliga siffror
