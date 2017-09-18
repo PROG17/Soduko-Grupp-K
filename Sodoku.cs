@@ -90,7 +90,6 @@ namespace Soduko
                     if (item.PossibleNumbers.Count == 1)
                     {
                         count++;
-                        Console.WriteLine(count);
                     }
 
                 }
