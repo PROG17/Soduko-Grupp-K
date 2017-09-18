@@ -87,23 +87,33 @@ namespace Soduko
                 {
 
                     ReducePossibleNumbers(item.Row, item.Column, item.Number);
+                    
                     if (item.PossibleNumbers.Count == 1)
                     {
                         count++;
+                        
                     }
 
                 }
                 if (prevcount == count)
                 {
-                    test = false;
                     Console.WriteLine("Unsolvable!");
+                    break;
                 }
                 prevcount = count;
-                
-                
+
             }
             
+            Console.WriteLine(count + " rätta nummer");
+
         }
+        //public void Solve2(int row, int col, char num)
+        //{
+        //    SodokuCell activeCell = allCells.Single(x => (x.Row == row) && (x.Column == col));
+        //    activeCell.Number = num;
+        //    Solve();
+        //    if 
+        //}
 
         //// Metod för att reducera möjliga siffror
 
@@ -112,9 +122,7 @@ namespace Soduko
 
             SodokuCell activeCell = allCells.Single(x => (x.Row == row) && (x.Column == col));
 
-            //activeCell.Number = num;
-
-
+            
             foreach (var item in allCells.Where(item => (item.Row == row) && (item.Solved == false))) // Reducera möjliga nummer för alla celler i samma rad
             {
                 item.PossibleNumbers.Remove(num);
@@ -147,6 +155,11 @@ namespace Soduko
 
 
         }
+        //public void Check()
+        //{
+        //    int index = AllCells.Count(item => (item.Number == '9') && (item.Row == 1));
+        //    Console.WriteLine(index);
+        //}
 
 
 
