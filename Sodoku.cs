@@ -16,7 +16,7 @@ namespace Soduko
         // Properties
 
         public List<SodokuCell> AllCells { get => allCells; set => allCells = value; }
-        
+       
 
         // Constructor
 
@@ -42,8 +42,6 @@ namespace Soduko
                 for (int i = y; i < y + 9; i++)
                 {
                     temp.Add(new SodokuCell(x + 1, i - (9 * x), gameplan[i - 1]));
-                    
-
                 }
                 x++;
                 y += 9;
