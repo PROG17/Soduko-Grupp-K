@@ -48,6 +48,7 @@ namespace Soduko
             }
             return temp;
         }
+
         // Metod för att skriva ut brädet
 
         public void BoardAsText()
@@ -93,11 +94,15 @@ namespace Soduko
                     }
 
                 }
+
+                //Här ska vår guessmetod in istället för unsolvable och break.
+
                 if (prevcount == count)
                 {
                     Console.WriteLine("Unsolvable!");
                     break;
                 }
+
                 prevcount = count;
 
             }
@@ -159,6 +164,22 @@ namespace Soduko
         //    Console.WriteLine(index);
         //}
 
+
+        public void Guess()
+        {
+
+            // Ta in information från brädan
+            //Hitta första cell som är ledig.
+            //Testa första siffra från cell
+            //Kolla om sudokun löses med denna siffra
+            //Testa nästa siffra tills du hittar en siffra som kan lösa resten av sudokut.
+            //Ge Solve.metoden rätt siffra så att den kan lösa resten av spelet.
+
+
+
+
+
+        }
 
 
     }
