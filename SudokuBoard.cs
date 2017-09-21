@@ -9,129 +9,270 @@ namespace Soduko
     class SudokuBoard
     {
 
-        public int Row { get; set; }
-        public int Col { get; set; }
-        public int Box { get; set; }
+        //public int Row { get; set; }
+        //public int Col { get; set; }
+        //public int Box { get; set; }
 
         //Eller
         string[] rader = new string[9];
         string[] columner = new string[9];
         string[] boxar = new string[9];
 
-        public char[] sudokuboard = new char[81];
+        char[] testare = new char[81];
 
-
-        public void PutInNumbers()
-        {
-            string teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
-            teststräng.ToCharArray();
-
-            for (int i = 0; i < sudokuboard.Length; i++)
-            {
-                sudokuboard[i] = teststräng[i];
-                Console.WriteLine(sudokuboard[i]);
-            }
-
-
-            //char[,] temp = new char[9,9];
-
-            //for (int i = x; i < 9; i++)
-            //{
-            //    for (int q = y; q < 9; i++)
-            //    {
-            //        temp[i, y] = teststräng[count++];
-
-            //        Console.WriteLine(sudokuboard[i, y]);
-
-
-            //        //temp.Add(new SodokuCell(x + 1, i - (9 * x), gameplan[i - 1]));
-            //    }
-            //    //x++;
-            //}
-        }
+        char[,] sudokuboard = new char[9, 9];
+        int counter = 0;
 
         string tillfällig = "";
 
-        public void Rows()
+
+        //Sätter nummer i vår sudokuboard utifrån angivet pussel.
+        public void PutInNumbers()
         {
-            int counter = 0;
-            int radcounter = 0;
+            counter = 0;
+            string teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
+            teststräng.ToCharArray();
+            char[] testare = teststräng.ToCharArray().Clone() as char[];
 
-            for (int i = 0; i < 9; i++)
+            while (counter < 81)
             {
-                tillfällig = sudokuboard[i].ToString();
-                rader[counter] = tillfällig;
-                counter += 9;
-
-            }
-
+                for (int i = 0; i < 9; i++)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        sudokuboard[i, j] = testare[counter];
+                        //Console.Write(sudokuboard[i, j] + " ");//skrive ut brädan sen?
+                        counter++;
+                    }
+                }
+            }  
         }
 
-                //        while (counter< 9)
-                //{
-                //    tillfällig += rader[counter];
-                //}
+        //Hittar siffror i varje rad och lägger i sträng
+        public void Rows()
+        {
+            counter = 0;
+
+            while (counter <9)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    tillfällig = " ";
+
+                    for (int j = 0; j < 9; j++)
+                    {
+                        tillfällig += sudokuboard[i, j];
+
+                        if (tillfällig.Length == 9)
+                        {
+                            rader[counter] = tillfällig;
+                            counter++;
+                        }
+                    }
+                }
+            }
+        }
+
+        //Hittar siffror i varje column och lägger i sträng
+        public void Columns()
+        {
+            counter = 0;
+            while (counter < 9)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    string tillfällig = "";
+
+                    for (int j = 0; j < 9; j++)
+                    {
+                        tillfällig += sudokuboard[j, i];
+
+                        if (tillfällig.Length == 9)
+                        {
+                            columner[counter] = tillfällig;
+                            counter++;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Box()
+        {
+            //boxar från vänster till höger
+            //Hjälp med att göra boxar kanske?
+
+            tillfällig = sudokuboard[0, 0] + sudokuboard[0, 1] + sudokuboard[0, 2] + sudokuboard[1, 0] + sudokuboard[1, 1] + sudokuboard[1, 2] + sudokuboard[2, 0] + sudokuboard[2, 1] + sudokuboard[2, 2];
+            boxar[0] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[0, 3] + sudokuboard[0, 4] + sudokuboard[0, 5] + sudokuboard[1, 3] + sudokuboard[1, 4] + sudokuboard[1, 5] + sudokuboard[2, 3] + sudokuboard[2, 4] + sudokuboard[2, 5];
+            boxar[1] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[0, 6] + sudokuboard[0, 7] + sudokuboard[0, 8] + sudokuboard[1, 6] + sudokuboard[1, 7] + sudokuboard[1, 8] + sudokuboard[2, 6] + sudokuboard[2, 7] + sudokuboard[2, 8];
+            boxar[2] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[3, 0] + sudokuboard[3, 1] + sudokuboard[3, 2] + sudokuboard[4, 0] + sudokuboard[4, 1] + sudokuboard[4, 2] + sudokuboard[5, 0] + sudokuboard[5, 1] + sudokuboard[5, 2];
+            boxar[3] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[3, 3] + sudokuboard[3, 4] + sudokuboard[3, 5] + sudokuboard[4, 3] + sudokuboard[4, 4] + sudokuboard[4, 5] + sudokuboard[5, 3] + sudokuboard[5, 4] + sudokuboard[5, 5];
+            boxar[4] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[3, 6] + sudokuboard[3, 7] + sudokuboard[3, 8] + sudokuboard[4, 6] + sudokuboard[4, 7] + sudokuboard[4, 8] + sudokuboard[5, 6] + sudokuboard[5, 7] + sudokuboard[5, 8];
+            boxar[5] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[6, 0] + sudokuboard[6, 1] + sudokuboard[6, 2] + sudokuboard[7, 0] + sudokuboard[7, 1] + sudokuboard[7, 2] + sudokuboard[8, 0] + sudokuboard[8, 1] + sudokuboard[8, 2];
+            boxar[6] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[6, 3] + sudokuboard[6, 4] + sudokuboard[6, 5] + sudokuboard[7, 3] + sudokuboard[7, 4] + sudokuboard[7, 5] + sudokuboard[8, 3] + sudokuboard[8, 4] + sudokuboard[8, 5];
+            boxar[7] = tillfällig;
+            tillfällig = "";
+
+            tillfällig = sudokuboard[6, 6] + sudokuboard[6, 7] + sudokuboard[6, 8] + sudokuboard[7, 6] + sudokuboard[7, 7] + sudokuboard[7, 8] + sudokuboard[8, 6] + sudokuboard[8, 7] + sudokuboard[8, 8];
+            boxar[8] = tillfällig;
+            tillfällig = "";
+        }
+
+        //public void Checker()
+        //{
+        //    string[,] temp = sudokuboard.Clone() as string[,];
+        //    //Använd en utav dem
+        //    string numberForCheckUp = "123456789";
+        //    numberForCheckUp.ToCharArray();
+        //    int möjligaNummerKvar;
+
+        //    string[] reducera = new string[9] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 
-    //public void BoardAsText()
-    //{
+        //    for (int i = 0; i < 9; i++)
+        //    {
+        //        for (int y = 0; y < 9; y++)
+        //        {
+        //            //Hittar alla celler utan värde
+        //            if (temp[i, y] == "0")
+        //            {
 
-    //    Console.WriteLine("---------------------");
+        //                for (int q = 0; q < 9; q++)
+        //                {
+        //                    string NummerTest = numberForCheckUp[q].ToString();
+        //                    int testare = int.Parse(NummerTest);
 
-
-    //    foreach (var item in sudokuboard)
-    //    {
-    //        Console.Write(item.Number + " ");
-    //        if ((item.Column % 3 == 0) && (item.Column != 9)) { Console.Write("| "); }
-    //        if (item.Column % 9 == 0) { Console.WriteLine(); }
-
-    //        if ((item.Row % 3 == 0) && (item.Column % 9 == 0)) { Console.WriteLine("---------------------"); }
-    //    }
-
-
-
-    //}
-
-
-
-    ////Konstruktur 
-    //public SudokuBoard(string gameplan)
-    //{
-    //    //Här ska vi göra 
-    //}
-
-    //public void TextToArray()
-    //{
-    //    string text = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
-    //    textArray = text.ToCharArray();
-    //}
-
-
-    ////private int[,] numbers = new int[9, 9];
+        //                    if (NummerTest.Contains(rader[i]))
+        //                    {
+        //                        möjligaNummerKvar += testare;
+        //                    }
 
 
 
 
 
-    //public void checkNumber(int row, int col)
-    //{
-    //    this.row = row;
-    //    this.col = col;
-    //}
 
-    //private void checkRow()
-    //{
+        //                    if (NummerTest == boxar[i])
+        //                    {
+        //                        möjligaNummerKvar -= NummerTest;
+        //                    }
+        //                    if (NummerTest == columner[i])
+        //                    {
+        //                        möjligaNummerKvar += NummerTest;
+        //                    }
+        //                }
+        //                if (möjligaNummerKvar.Length==1)
+        //                {
+        //                    sudokuboard[i, y] = möjligaNummerKvar;
+        //                }
+        //                //Vi kan komma att behöva denna sedan när vi ska gissa. 
+        //                else
+        //                {
+        //                    temp[i, y] = möjligaNummerKvar;
+        //                }
 
-    //}
+        //                //När man kollat rad, column och box och kunnat reducera till en siffra ändrar vi värdet i temp[i,y] till det som är kvar
+        //                if (temp[i,y].Length==1)
+        //                {
+        //                    temp[i, y] = reducerad[i];
 
-    //private void checkCol()
-    //{
+        //                }
+        //            }
+        //        }
+        //    }
 
-    //}
 
-    //private void checkBox()
-    //{
 
-    //}
-}
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ////Ska skriva ut lösningen till Consolen.
+        //public void BoardAsText()
+        //{
+        //    Console.WriteLine("__________________________________________");
+
+        //    //Rita ur brädspelet.
+
+        //    Console.WriteLine("__________________________________________");
+
+        //}
+
+
+
+        ////Konstruktur 
+        //public SudokuBoard(string gameplan)
+        //{
+        //    //Här ska vi göra 
+        //}
+
+        //public void TextToArray()
+        //{
+        //    string text = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
+        //    textArray = text.ToCharArray();
+        //}
+
+
+        ////private int[,] numbers = new int[9, 9];
+
+
+
+
+
+        //public void checkNumber(int row, int col)
+        //{
+        //    this.row = row;
+        //    this.col = col;
+        //}
+
+        //private void checkRow()
+        //{
+
+        //}
+
+        //private void checkCol()
+        //{
+
+        //}
+
+        //private void checkBox()
+        //{
+
+        //}
+    }
 }

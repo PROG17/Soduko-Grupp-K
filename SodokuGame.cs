@@ -13,8 +13,9 @@ namespace Soduko
 
             SudokuBoard game = new SudokuBoard();
             game.PutInNumbers();
-
-
+            game.Rows();
+            game.Columns();
+            game.Box();
         }
 
 
