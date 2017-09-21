@@ -18,7 +18,7 @@ namespace Soduko
         string[] boxar = new string[9];
 
         char[] testare = new char[81];
-
+        string teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
         char[,] sudokuboard = new char[9, 9];
         int counter = 0;
 
@@ -29,7 +29,7 @@ namespace Soduko
         public void PutInNumbers()
         {
             counter = 0;
-            string teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
+            //teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
             teststräng.ToCharArray();
             char[] testare = teststräng.ToCharArray().Clone() as char[];
 
@@ -47,6 +47,42 @@ namespace Soduko
             }
         }
 
+        //Skriver ut siffrorna på skärmen som ett sudokubräde
+        public void PrintNumbers()
+        {
+            int counter = 0;
+            string row = "";
+            List<string> printRows = new List<string>();
+
+            foreach (char c in teststräng)
+            {
+                row += c;
+                counter++;
+                if (counter == 3 && row.Length < 15)
+                {
+                    row += " | ";
+                    counter = 0;
+                }
+                if (row.Length == 15)
+                {
+                    printRows.Add(row);
+                    row = "";
+                    counter = 0;
+                }
+            }
+            int newRow = 0;
+            foreach (var rad in printRows)
+            {
+                newRow++;
+                Console.WriteLine(rad);
+                if (newRow == 3)
+                {
+                    Console.WriteLine("---------------");
+                    newRow = 0;
+                }
+            }
+
+        }
         //Hittar siffror i varje rad och lägger i sträng
         public void Rows()
         {
@@ -96,11 +132,12 @@ namespace Soduko
             }
         }
 
+        //Hittar siffror från column och rad och skapar 3x3 boxar
         public void Box()
         {
             int x = 0;
             int y = 0;
-            
+
             if (y < 3)
             {
                 if (x < 3)
@@ -144,7 +181,6 @@ namespace Soduko
                         y++;
                     }
                 }
-
             }
             if (y < 6)
             {
@@ -190,7 +226,6 @@ namespace Soduko
                         y++;
                     }
                 }
-
             }
             if (y < 9)
             {
@@ -236,184 +271,13 @@ namespace Soduko
                         y++;
                     }
                 }
-
             }
-           
-
-            
-            //else if (x < 6)
-            //{
-            //    if (y < 3)
-            //    {
-            //        for (int i = 0; i < 3; i++)
-            //        {
-            //            for (int j = 0; j < 3; j++)
-            //            {
-            //                if (sudokuboard[i, j] == 0)
-            //                    possible = false;
-            //            }
-
-            //        }
-            //    }
-            //    else if (y < 6)
-            //    {
-            //        for (int i = 3; i < 6; i++)
-            //        {
-            //            for (int j = 3; j < 6; j++)
-            //            {
-            //                if (sudokuboard[i, j] == 0)
-            //                    possible = false;
-            //            }
-
-            //        }
-            //    }
-            //    else if (y < 9)
-            //    {
-            //        for (int i = 6; i < 9; i++)
-            //        {
-            //            for (int j = 6; j < 9; j++)
-            //            {
-            //                if (sudokuboard[i, j] == 0)
-            //                    possible = false;
-            //            }
-            //        }
-            //    }
-            //}
-            //else if (x < 9)
-            //{
-            //    if (y < 3)
-            //    {
-            //        for (int i = 0; i < 3; i++)
-            //        {
-            //            for (int j = 0; j < 3; j++)
-            //            {
-            //                if (sudokuboard[i, j] == 0)
-            //                    possible = false;
-            //            }
-
-            //        }
-            //    }
-            //    else if (y < 6)
-            //    {
-            //        for (int i = 3; i < 6; i++)
-            //        {
-            //            for (int j = 3; i < 6; i++)
-            //            {
-            //                if (sudokuboard[i, j] == 0)
-            //                    possible = false;
-            //            }
-
-            //        }
-            //    }
-            //    else if (y < 9)
-            //    {
-            //        for (int i = 6; i < 9; i++)
-            //        {
-            //            for (int j = 6; j < 9; j++)
-            //            {
-            //                if (sudokuboard[i, j] == 0)
-            //                    possible = false;
-            //            }
-            //        }
-            //    }
-
-            //}
-            //if (x < 3)
-            //{
-            //    if (y < 3)
-            //    {
-            //        for (int i = 0; i < 3; i++)
-            //        {
-            //            for (int q = 0; q < 3; q++)
-            //            {
-            //                if (numbers[i, q, 0] == target)
-            //                    possible = false;
-            //            }
-            //        }
-            //    }
-            //    else if (y < 6)
-            //    {
-
-            //        for (int i = 3; i < 6; i++)
-            //        {
-            //            for (int q = 3; q < 6; q++)
-            //            {
-            //                if (numbers[i, q, 0] == target)
-            //                    possible = false;
-            //            }
-            //        }
-            //    }
-            //    else if (y < 9)
-            //    {
-            //        for (int i = 6; i < 9; i++)
-            //        {
-            //            for (int q = 6; q < 9; q++)
-            //            {
-            //                if (numbers[i, q, 0] == target)
-            //                    possible = false;
-            //            }
-            //        }
-            //    }
-
-            //}
-            //counter = 0;
-            //while (counter < 9)
-            //{
-            //    for (int i = 0; i < 9; i++)
-            //    {
-            //        string tillfällig = "";
-
-            //        for (int j = 0; j < 9; j++)
-            //        {
-            //            if (x < 3)
-            //                tillfällig += sudokuboard[x, y];
-            //            boxar[counter] = tillfällig;
-
-            //        }
-            //    }
-            //}
         }
 
-        //public void Box()
+        //Reducerar antal möjliga nummer i varje ruta
+        //public void ReduceToPossibleNumbers()
         //{
-        //    //boxar från vänster till höger
-        //    //Hjälp med att göra boxar kanske?
 
-        //    tillfällig = sudokuboard[0, 0] + sudokuboard[0, 1] + sudokuboard[0, 2] + sudokuboard[1, 0] + sudokuboard[1, 1] + sudokuboard[1, 2] + sudokuboard[2, 0] + sudokuboard[2, 1] + sudokuboard[2, 2];
-        //    boxar[0] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[0, 3] + sudokuboard[0, 4] + sudokuboard[0, 5] + sudokuboard[1, 3] + sudokuboard[1, 4] + sudokuboard[1, 5] + sudokuboard[2, 3] + sudokuboard[2, 4] + sudokuboard[2, 5];
-        //    boxar[1] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[0, 6] + sudokuboard[0, 7] + sudokuboard[0, 8] + sudokuboard[1, 6] + sudokuboard[1, 7] + sudokuboard[1, 8] + sudokuboard[2, 6] + sudokuboard[2, 7] + sudokuboard[2, 8];
-        //    boxar[2] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[3, 0] + sudokuboard[3, 1] + sudokuboard[3, 2] + sudokuboard[4, 0] + sudokuboard[4, 1] + sudokuboard[4, 2] + sudokuboard[5, 0] + sudokuboard[5, 1] + sudokuboard[5, 2];
-        //    boxar[3] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[3, 3] + sudokuboard[3, 4] + sudokuboard[3, 5] + sudokuboard[4, 3] + sudokuboard[4, 4] + sudokuboard[4, 5] + sudokuboard[5, 3] + sudokuboard[5, 4] + sudokuboard[5, 5];
-        //    boxar[4] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[3, 6] + sudokuboard[3, 7] + sudokuboard[3, 8] + sudokuboard[4, 6] + sudokuboard[4, 7] + sudokuboard[4, 8] + sudokuboard[5, 6] + sudokuboard[5, 7] + sudokuboard[5, 8];
-        //    boxar[5] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[6, 0] + sudokuboard[6, 1] + sudokuboard[6, 2] + sudokuboard[7, 0] + sudokuboard[7, 1] + sudokuboard[7, 2] + sudokuboard[8, 0] + sudokuboard[8, 1] + sudokuboard[8, 2];
-        //    boxar[6] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[6, 3] + sudokuboard[6, 4] + sudokuboard[6, 5] + sudokuboard[7, 3] + sudokuboard[7, 4] + sudokuboard[7, 5] + sudokuboard[8, 3] + sudokuboard[8, 4] + sudokuboard[8, 5];
-        //    boxar[7] = tillfällig;
-        //    tillfällig = "";
-
-        //    tillfällig = sudokuboard[6, 6] + sudokuboard[6, 7] + sudokuboard[6, 8] + sudokuboard[7, 6] + sudokuboard[7, 7] + sudokuboard[7, 8] + sudokuboard[8, 6] + sudokuboard[8, 7] + sudokuboard[8, 8];
-        //    boxar[8] = tillfällig;
-        //    tillfällig = "";
         //}
 
         //public void Checker()
@@ -444,11 +308,6 @@ namespace Soduko
         //                    {
         //                        möjligaNummerKvar += testare;
         //                    }
-
-
-
-
-
 
         //                    if (NummerTest == boxar[i])
         //                    {
@@ -482,21 +341,6 @@ namespace Soduko
 
 
         //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         ////Ska skriva ut lösningen till Consolen.
