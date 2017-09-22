@@ -8,11 +8,6 @@ namespace Soduko
 {
     class SudokuBoard
     {
-
-        //public int Row { get; set; }
-        //public int Col { get; set; }
-
-        //Eller
         string[] rader = new string[9];
         string[] columner = new string[9];
         string[] boxar = new string[9];
@@ -20,16 +15,13 @@ namespace Soduko
         char[] testare = new char[81];
         string teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
         char[,] sudokuboard = new char[9, 9];
+        int[,] tempSudokuBoard = new int[9, 9];
         int counter = 0;
-
         string tillfällig = "";
-
 
         //Sätter nummer i vår sudokuboard utifrån angivet pussel.
         public void PutInNumbers()
         {
-            counter = 0;
-            //teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
             teststräng.ToCharArray();
             char[] testare = teststräng.ToCharArray().Clone() as char[];
 
@@ -40,7 +32,6 @@ namespace Soduko
                     for (int j = 0; j < 9; j++)
                     {
                         sudokuboard[i, j] = testare[counter];
-                        //Console.Write(sudokuboard[i, j] + " ");//skrive ut brädan sen?
                         counter++;
                     }
                 }
@@ -50,7 +41,7 @@ namespace Soduko
         //Skriver ut siffrorna på skärmen som ett sudokubräde
         public void PrintNumbers()
         {
-            int counter = 0;
+            counter = 0;
             string row = "";
             List<string> printRows = new List<string>();
 
@@ -92,7 +83,7 @@ namespace Soduko
             {
                 for (int i = 0; i < 9; i++)
                 {
-                    tillfällig = " ";
+                    tillfällig = "";
 
                     for (int j = 0; j < 9; j++)
                     {
@@ -274,126 +265,115 @@ namespace Soduko
             }
         }
 
-        //Reducerar antal möjliga nummer i varje ruta
-        //public void ReduceToPossibleNumbers()
-        //{
+        public void ReduceToPossibleNumbers()
+        {
+            int[] numberChecker = new int[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-        //}
+            //Fyller tempSudokuBoard
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    string number = sudokuboard[i, j].ToString();
+                    int numberint = int.Parse(number);
+                    tempSudokuBoard[i, j] = numberint;
+                }
+            }
 
-        //public void Checker()
-        //{
-        //    string[,] temp = sudokuboard.Clone() as string[,];
-        //    //Använd en utav dem
-        //    string numberForCheckUp = "123456789";
-        //    numberForCheckUp.ToCharArray();
-        //    int möjligaNummerKvar;
+            //Ger möjliga värden till celler som har 0
+            for (int i = 0; i < 9; i++)
+            {
+                for (int y = 0; y < 9; y++)
+                {
+                    //Hittar alla celler utan värde
+                    if (tempSudokuBoard[i, y] == 0)
+                    {
+                        List<int> possibleNumbersLeft = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                        int numberTestAsInt = 0;
 
-        //    string[] reducera = new string[9] { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+                        for (int k = 0; k < 9; k++)
+                        {
+                            numberTestAsInt = numberChecker[k];
+                            string numberTestAsString = numberChecker[k].ToString();
 
+                            if (rader[i].Contains(numberTestAsString))
+                            {
+                                possibleNumbersLeft.Remove(numberTestAsInt);//Läger till alla nummer som existerar i rad
+                            }
+                            else if (columner[y].Contains(numberTestAsString)) //Man behöver bara hitta numret en gång i rad, column eller box. Har man hittat den en gång behöver man inte fortsätta leta efter möjliga nummer som inte kan fungera
+                            {
+                                possibleNumbersLeft.Remove(numberTestAsInt);
+                            }
+                            //else if (boxar[i].Contains(numberTestAsString)) // Hur testa boxarna?
+                            //{
+                            //    possibleNumbersLeft.Remove(numberTestAsInt);
+                            //}
+                        }
 
-        //    for (int i = 0; i < 9; i++)
-        //    {
-        //        for (int y = 0; y < 9; y++)
-        //        {
-        //            //Hittar alla celler utan värde
-        //            if (temp[i, y] == "0")
-        //            {
+                        if (possibleNumbersLeft.Count() == 1) //Om det bara finns ett möjligt kvar sätts värdet i cellen
+                        {
+                            tempSudokuBoard[i, y] = numberTestAsInt;
+                        }
+                        else
+                        {
+                            StringBuilder nummersträng = new StringBuilder();
+                            string total = "";
 
-        //                for (int q = 0; q < 9; q++)
-        //                {
-        //                    string NummerTest = numberForCheckUp[q].ToString();
-        //                    int testare = int.Parse(NummerTest);
+                            foreach (var nr in possibleNumbersLeft)
+                            {
+                                nummersträng.Append(nr.ToString());
+                            }
 
-        //                    if (NummerTest.Contains(rader[i]))
-        //                    {
-        //                        möjligaNummerKvar += testare;
-        //                    }
+                            total = nummersträng.ToString();
+                            int nummerint = Convert.ToInt32(total);
+                            tempSudokuBoard[i, y] = nummerint;
+                        }
+                    }
+                }
+            }
+        }
 
-        //                    if (NummerTest == boxar[i])
-        //                    {
-        //                        möjligaNummerKvar -= NummerTest;
-        //                    }
-        //                    if (NummerTest == columner[i])
-        //                    {
-        //                        möjligaNummerKvar += NummerTest;
-        //                    }
-        //                }
-        //                if (möjligaNummerKvar.Length==1)
-        //                {
-        //                    sudokuboard[i, y] = möjligaNummerKvar;
-        //                }
-        //                //Vi kan komma att behöva denna sedan när vi ska gissa. 
-        //                else
-        //                {
-        //                    temp[i, y] = möjligaNummerKvar;
-        //                }
+        public void Guesser()
+        {
+            // Ta cell för cell
+            //Ta första siffran som är kvar i cellen och gör om den till en en siffra. 
+            //Testa reduce numbers metoden med den siffran.<---
+            //OM det inte finns några celler med fler än en siffra kvar, avbryt och . Kopiera över till vanliga sudokbräden.
 
-        //                //När man kollat rad, column och box och kunnat reducera till en siffra ändrar vi värdet i temp[i,y] till det som är kvar
-        //                if (temp[i,y].Length==1)
-        //                {
-        //                    temp[i, y] = reducerad[i];
+            //Om inte testa nästa siffra i ruta tills alla siffror som är kvar är testade i alla celler.
 
-        //                }
-        //            }
-        //        }
-        //    }
+            counter = 0;
+            while (counter < 81)
+            {
+                counter++;
 
+                for (int i = 0; i < 9; i++)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        string numbersToGuess = tempSudokuBoard[i, j].ToString();
+                        numbersToGuess.ToCharArray();
 
-
-        //}
-
-
-        ////Ska skriva ut lösningen till Consolen.
-        //public void BoardAsText()
-        //{
-        //    Console.WriteLine("__________________________________________");
-
-        //    //Rita ur brädspelet.
-
-        //    Console.WriteLine("__________________________________________");
-
-        //}
-
-
+                        for (int k = 0; k < numbersToGuess.Length; k++)
+                        {
+                            string guessingNumbersträng = numbersToGuess[k].ToString(); ;
+                            int guesingNumberInt = Convert.ToInt32(guessingNumbersträng);
+                            tempSudokuBoard[i, j] = guesingNumberInt;
+                            ReduceToPossibleNumbers();
+                        }
+                        if (tempSudokuBoard.ToString().Length == 81)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         ////Konstruktur 
         //public SudokuBoard(string gameplan)
         //{
         //    //Här ska vi göra 
-        //}
-
-        //public void TextToArray()
-        //{
-        //    string text = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
-        //    textArray = text.ToCharArray();
-        //}
-
-
-        ////private int[,] numbers = new int[9, 9];
-
-
-
-
-
-        //public void checkNumber(int row, int col)
-        //{
-        //    this.row = row;
-        //    this.col = col;
-        //}
-
-        //private void checkRow()
-        //{
-
-        //}
-
-        //private void checkCol()
-        //{
-
-        //}
-
-        //private void checkBox()
-        //{
-
         //}
     }
 }
