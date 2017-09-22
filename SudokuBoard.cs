@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,9 +67,14 @@ namespace Soduko
             {
                 newRow++;
                 Console.WriteLine(rad);
-                if (newRow == 3)
+                if (newRow == 3 || newRow == 6)
                 {
                     Console.WriteLine("---------------");
+                    //newRow = 0;
+                }
+                else if (newRow == 9)
+                {
+                    Console.WriteLine("");
                     newRow = 0;
                 }
             }

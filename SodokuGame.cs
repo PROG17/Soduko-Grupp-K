@@ -12,11 +12,15 @@ namespace Soduko
         {
 
             SudokuBoard game = new SudokuBoard();
+            //Debug check
             game.PutInNumbers();
             game.PrintNumbers();
             game.Rows();
             game.Columns();
             game.Box();
+            //Actual solver
+
+
         }
 
 
