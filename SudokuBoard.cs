@@ -14,11 +14,26 @@ namespace Soduko
         string[] boxar = new string[9];
 
         char[] testare = new char[81];
-        string teststräng = "037060000205000800006908000000600024001503600650009000000302700009000402000050360";
+        string teststräng = "";
         char[,] sudokuboard = new char[9, 9];
         int[,] tempSudokuBoard = new int[9, 9];
         int counter = 0;
         string tillfällig = "";
+
+        //Konstruktur 
+        public SudokuBoard(string gameplan)
+        {
+            teststräng = gameplan;
+        }
+
+        //Metod Samlaren
+        public void Play()
+        {
+            PutInNumbers();
+            PrintNumbers();
+            ReduceToPossibleNumbers();
+            //Guesser();
+        }
 
         //Sätter nummer i vår sudokuboard utifrån angivet pussel.
         public void PutInNumbers()
@@ -81,7 +96,7 @@ namespace Soduko
 
         }
         //Hittar siffror i varje rad och lägger i sträng
-        public void Rows()
+        public void GetRows()
         {
             counter = 0;
 
@@ -106,7 +121,7 @@ namespace Soduko
         }
 
         //Hittar siffror i varje column och lägger i sträng
-        public void Columns()
+        public void GetColumns()
         {
             counter = 0;
             while (counter < 9)
@@ -130,7 +145,7 @@ namespace Soduko
         }
 
         //Hittar siffror från column och rad och skapar 3x3 boxar
-        public void Box()
+        public void GetBoxes()
         {
             int x = 0;
             int y = 0;
@@ -273,6 +288,10 @@ namespace Soduko
 
         public void ReduceToPossibleNumbers()
         {
+            GetRows();
+            GetColumns();
+            GetBoxes();
+
             int[] numberChecker = new int[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             //Fyller tempSudokuBoard
@@ -302,17 +321,19 @@ namespace Soduko
                             numberTestAsInt = numberChecker[k];
                             string numberTestAsString = numberChecker[k].ToString();
 
+
                             if (rader[i].Contains(numberTestAsString))
                             {
                                 possibleNumbersLeft.Remove(numberTestAsInt);//Läger till alla nummer som existerar i rad
                             }
-                            else if (columner[y].Contains(numberTestAsString)) //Man behöver bara hitta numret en gång i rad, column eller box. Har man hittat den en gång behöver man inte fortsätta leta efter möjliga nummer som inte kan fungera
+                            else if (columner[y].Contains(numberTestAsString)) //Man behöver bara hitta numret en gång i rad, column eller box. 
                             {
                                 possibleNumbersLeft.Remove(numberTestAsInt);
                             }
-                            //else if (boxar[i].Contains(numberTestAsString)) // Hur testa boxarna?
+                            //else if ()
                             //{
-                            //    possibleNumbersLeft.Remove(numberTestAsInt);
+                            //      Kod för att kolla boxarna. Här eller i en egen metod?
+                            //      possibleNumbersLeft.Remove(numberTestAsInt);
                             //}
                         }
 
@@ -339,47 +360,59 @@ namespace Soduko
             }
         }
 
-        public void Guesser()
-        {
-            // Ta cell för cell
-            //Ta första siffran som är kvar i cellen och gör om den till en en siffra. 
-            //Testa reduce numbers metoden med den siffran.<---
-            //OM det inte finns några celler med fler än en siffra kvar, avbryt och . Kopiera över till vanliga sudokbräden.
-
-            //Om inte testa nästa siffra i ruta tills alla siffror som är kvar är testade i alla celler.
-
-            counter = 0;
-            while (counter < 81)
-            {
-                counter++;
-
-                for (int i = 0; i < 9; i++)
-                {
-                    for (int j = 0; j < 9; j++)
-                    {
-                        string numbersToGuess = tempSudokuBoard[i, j].ToString();
-                        numbersToGuess.ToCharArray();
-
-                        for (int k = 0; k < numbersToGuess.Length; k++)
-                        {
-                            string guessingNumbersträng = numbersToGuess[k].ToString(); ;
-                            int guesingNumberInt = Convert.ToInt32(guessingNumbersträng);
-                            tempSudokuBoard[i, j] = guesingNumberInt;
-                            ReduceToPossibleNumbers();
-                        }
-                        if (tempSudokuBoard.ToString().Length == 81)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        ////Konstruktur 
-        //public SudokuBoard(string gameplan)
+        //public void Guesser()
         //{
-        //    //Här ska vi göra 
+        //    //Ta cell för cell
+        //    //Ta första siffran som är kvar i cellen och gör om den till en en siffra. 
+        //    //Starta ett nytt spel med angiven siffra.<---
+        //    //OM spelet avslutas . Kopiera över till vanliga sudokbräden.
+
+        //    //Om inte testa nästa siffra i ruta tills alla siffror som är kvar är testade i alla celler.
+
+
+        //        int[,] GuessBorad = tempSudokuBoard.Clone() as int[,];
+
+        //        for (int i = 0; i < 9; i++)
+        //        {
+        //            for (int j = 0; j < 9; j++)
+        //            {
+        //                string numbersToGuess = tempSudokuBoard[i, j].ToString();
+        //                int[] arr = new int[numbersToGuess.Length];
+
+        //                for (int l = 0; l < numbersToGuess.Length; l++)
+        //                {
+        //                    arr[l] = numbersToGuess[l] - '0';
+        //                }
+
+        //                if (tempSudokuBoard[i, j].ToString().Length != 1)
+        //                {
+        //                        string SudokunJustNu = "";
+
+        //                        foreach (var item in GuessBorad)
+        //                        {
+        //                            if (item.ToString().Length > 1)
+        //                            {
+        //                                SudokunJustNu += "0";
+        //                            }
+        //                            else
+        //                            {
+        //                                SudokunJustNu += item.ToString().ElementAt(0);
+
+        //                            }
+        //                        }
+
+
+        //                         SudokuBoard testSpela = new SudokuBoard(SudokunJustNu);
+        //                         Play();
+
+        //                }
+        //            }
+        //        }
+            
         //}
+
+
+
+
     }
 }

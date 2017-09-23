@@ -10,14 +10,19 @@ namespace Soduko
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Ditt olösa sudoku:");
+            SudokuBoard game = new SudokuBoard("037060000205000800006908000000600024001503600650009000000302700009000402000050360");
+            game.Play();
+            Console.WriteLine("Tryck Enter för lösning");
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("LÖSNING:");
+    
 
-            SudokuBoard game = new SudokuBoard();
-            //Debug check
-            game.PutInNumbers();
-            game.PrintNumbers();
-            game.Rows();
-            game.Columns();
-            game.Box();
+
+            // Visa den lösta: 
+            
+            Console.WriteLine("Tack för att du använder vår Solver\nHa en bra dag nu...");
             //Actual solver
 
 
