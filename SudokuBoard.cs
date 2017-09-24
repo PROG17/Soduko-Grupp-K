@@ -315,26 +315,84 @@ namespace Soduko
                     {
                         List<int> possibleNumbersLeft = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                         int numberTestAsInt = 0;
-
+                        
                         for (int k = 0; k < 9; k++)
                         {
                             numberTestAsInt = numberChecker[k];
                             string numberTestAsString = numberChecker[k].ToString();
 
-
-                            if (rader[i].Contains(numberTestAsString))
-                            {
-                                possibleNumbersLeft.Remove(numberTestAsInt);//Läger till alla nummer som existerar i rad
-                            }
-                            else if (columner[y].Contains(numberTestAsString)) //Man behöver bara hitta numret en gång i rad, column eller box. 
+                            if (rader[i].Contains((numberTestAsString)))
                             {
                                 possibleNumbersLeft.Remove(numberTestAsInt);
                             }
-                            //else if ()
-                            //{
-                            //      Kod för att kolla boxarna. Här eller i en egen metod?
-                            //      possibleNumbersLeft.Remove(numberTestAsInt);
-                            //}
+                            else if (columner[y].Contains((numberTestAsString)))
+                            {
+                                possibleNumbersLeft.Remove((numberTestAsInt));
+                            }
+                            else if ((i < 3) && (y < 3))
+                            {
+                                if (boxar[0].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 3) && (y < 6))
+                            {
+                                if (boxar[1].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 3) && (y < 9))
+                            {
+                                if (boxar[2].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 6) && (y < 3))
+                            {
+                                if (boxar[3].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 6) && (y < 6))
+                            {
+                                if (boxar[4].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 6) && (y < 9))
+                            {
+                                if (boxar[5].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 9) && (y < 3))
+                            {
+                                if (boxar[6].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 9) && (y < 6))
+                            {
+                                if (boxar[7].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+                            else if ((i < 9) && (y < 9))
+                            {
+                                if (boxar[8].Contains(numberTestAsString))
+                                {
+                                    possibleNumbersLeft.Remove(numberTestAsInt);
+                                }
+                            }
+
                         }
 
                         if (possibleNumbersLeft.Count() == 1) //Om det bara finns ett möjligt kvar sätts värdet i cellen
