@@ -98,14 +98,13 @@ namespace Soduko
 
         public bool Solver()
         {
-            int[,] tempSudoku = sudokuBoard;//Behövs för att se om en cell har ändrats i CellHasChanged metoden
-
+            int[,] tempSudoku;
 
             bool hasUnSolvedCells = true;
 
             while (hasUnSolvedCells)
             {
-                tempSudoku = sudokuBoard;
+                tempSudoku = (int[,])sudokuBoard.Clone();//Behövs för att se om en cell har ändrats i CellHasChanged 
                 hasUnSolvedCells = false;
 
                 //Ger möjliga värden till celler som har 0
@@ -131,15 +130,15 @@ namespace Soduko
                     }
                 }
 
-
+                if (!hasUnSolvedCells)
+                {
+                    return true;
+                }
                 if (CellHasChanged(tempSudoku) == false)
                 {
                     Guesser();
                 }
-                else if (!hasUnSolvedCells)
-                {
-                    return true;
-                }
+
             }
 
 
