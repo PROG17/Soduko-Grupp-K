@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
+using System.Threading;
 
 namespace Soduko
 {
     class SudokuBoard
     {
-        //To-Do
-        //villkoret för att komma till guesser
-        //Backtrackingen i guesser.
-        //Eventuellt en isSolved metod som kontrollera nollor
-
-
-        int counter = 0;
-        string tempValueString = "";
         private string boardToSolve = "";
-
         int[,] sudokuBoard = new int[9, 9];
         int[,] tempSudoku = new int[9, 9];
 
@@ -26,30 +18,20 @@ namespace Soduko
             boardToSolve = gameBoard;
         }
 
-        public void Solve()
+        public bool Play()
         {
-            Console.WriteLine("Unsolved Sudoku:\n");
             PutInNumbers(boardToSolve);
             PrintNumbers(sudokuBoard);
-            Console.WriteLine("\nPress any key for Solution");
-            Console.ReadKey();
-            //Console.Clear();
+
             if (Solver()) //kör och kollar sant/falskt
             {
-                Console.WriteLine("Solution:\n");
+                Console.WriteLine("Solved it for you!");
                 PrintNumbers(sudokuBoard);
-                Console.ReadLine();
-                return;
+                Thread.Sleep(155515151);
+                return true;
             }
-            else
-            {
-                Console.WriteLine("Unsolvable");
-                return;
-            }
-            //Console.ReadLine();
-
+            return false;
         }
-
 
         public void PutInNumbers(string spel)
         {
@@ -67,6 +49,7 @@ namespace Soduko
         //Skriver ut siffrorna på skärmen som ett sudokubräde
         public void PrintNumbers(int[,] brädet)
         {
+            Console.SetCursorPosition(0, 1);
             for (var row = 0; row < 9; row++)
             {
                 for (var col = 0; col < 9; col++)
@@ -79,6 +62,8 @@ namespace Soduko
                 if (row == 2 || row == 5)
                     Console.WriteLine("---------------");
             }
+
+            Console.WriteLine("Processing Solver. . .\n");
         }
 
         public bool CellHasChanged(int[,] spel)
@@ -98,15 +83,10 @@ namespace Soduko
 
         public bool Solver()
         {
-            int[,] tempSudoku = sudokuBoard;//Behövs för att se om en cell har ändrats i CellHasChanged metoden
-
-
-            bool hasUnSolvedCells = true;
-
-            while (hasUnSolvedCells)
+            while (true)
             {
-                tempSudoku = sudokuBoard;
-                hasUnSolvedCells = false;
+                tempSudoku = (int[,])sudokuBoard.Clone();//Behövs för att se om en cell har ändrats i CellHasChanged 
+                bool hasUnSolvedCells = false;
 
                 //Ger möjliga värden till celler som har 0
                 for (int i = 0; i < 9; i++)
@@ -123,33 +103,39 @@ namespace Soduko
                             }
                             else if (GetPossibleNumbers(i, y).Count == 0)
                             {
-                                Console.WriteLine("Unsolvable");
+                                Console.WriteLine("Impossible?");
                                 return false;
                             }
-
                         }
                     }
                 }
 
+                if (!hasUnSolvedCells)
+                {
+                    return true; //Hoppar ur loopar när brädet är klart.
+                }
 
                 if (CellHasChanged(tempSudoku) == false)
                 {
-                    Guesser();
-                }
-                else if (!hasUnSolvedCells)
-                {
-                    return true;
+                    break;
                 }
             }
+            if (CellHasChanged(tempSudoku) == false && Guesser())
+            {
 
-
+                return true;
+            }
+            if (IsSolved(sudokuBoard))
+            {
+                return true;
+            }
             return false;
         }
 
 
         public List<int> GetPossibleNumbers(int row, int col)
         {
-            List<int> possibleNumbersLeft = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; ;
+            List<int> possibleNumbersLeft = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             for (int y = 0; y < 9; y++)
             {
@@ -180,41 +166,78 @@ namespace Soduko
             }
             return possibleNumbersLeft;
         }
-        //Fixa detta
-        public bool Guesser()
+
+        public bool IsSolved(int[,] game)
         {
-            
-            Console.WriteLine("I GUESSERN: ");
-            string newSudokuString = "";
-            int value = 0;
             for (int x = 0; x < 9; x++)
             {
                 for (int y = 0; y < 9; y++)
                 {
-                    if (sudokuBoard[x, y] == 0)
+                    if (game[x, y] == 0)
                     {
-
-                        foreach (var number in GetPossibleNumbers(x, y))
-                        {
-                            foreach (var integer in sudokuBoard)
-                            {
-                                newSudokuString += integer;
-                            }
-                            StringBuilder sb = new StringBuilder(newSudokuString);
-                            var ch = (char) (48 + number);
-                            sb[(x * 9) + y] = ch;
-                            newSudokuString = sb.ToString();
-
-                            var newBoard = new SudokuBoard(newSudokuString);
-
-                            newBoard.Solver();
-                            return false;
-                        }
+                        return false;
                     }
-
                 }
             }
-            return false;
+            return true;
+        }
+
+        public bool Guesser()
+        {
+            while (true)
+            {
+
+                bool hasUnSolvedCells = false;
+
+                for (int x = 0; x < 9; x++)
+                {
+                    for (int y = 0; y < 9; y++)
+                    {
+                        if (sudokuBoard[x, y] == 0)
+                        {
+                            hasUnSolvedCells = true;
+                            foreach (var number in GetPossibleNumbers(x, y))
+                            {
+                                string newSudokuString = "";
+                                foreach (var integer in sudokuBoard)
+                                {
+                                    newSudokuString += integer;
+                                }
+                                StringBuilder sb = new StringBuilder(newSudokuString);
+                                var ch = (char)(48 + number);
+                                sb[(x * 9) + y] = ch;
+                                newSudokuString = sb.ToString();
+
+                                var newBoard = new SudokuBoard(newSudokuString);
+                                if (newBoard.Play())
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        while (sudokuBoard[x, y] == 0 && GetPossibleNumbers(x, y).Count > 1)
+                        {
+                            for (int val = 0; val < GetPossibleNumbers(x, y).Count; val++)
+                            {
+                                sudokuBoard[x, y] = GetPossibleNumbers(x, y)[val];
+                                if (sudokuBoard[x, y].ToString().Length > 1)
+                                {
+                                    sudokuBoard[x, y] = 0;
+                                    Guesser();
+
+                                    if (IsSolved(sudokuBoard))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            }
+
         }
     }
 }

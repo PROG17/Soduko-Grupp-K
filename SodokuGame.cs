@@ -16,6 +16,8 @@ namespace Soduko
 
 
             SudokuBoard game = new SudokuBoard(medium);
+            game.Play();
+            Console.ReadKey();
 
         }
     }
