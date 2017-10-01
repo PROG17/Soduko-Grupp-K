@@ -17,7 +17,6 @@ namespace Soduko
         {
             boardToSolve = gameBoard;
         }
-
         public bool Play()
         {
             PutInNumbers(boardToSolve);
@@ -125,10 +124,7 @@ namespace Soduko
 
                 return true;
             }
-            if (IsSolved(sudokuBoard))
-            {
-                return true;
-            }
+            
             return false;
         }
 
@@ -166,21 +162,7 @@ namespace Soduko
             }
             return possibleNumbersLeft;
         }
-
-        public bool IsSolved(int[,] game)
-        {
-            for (int x = 0; x < 9; x++)
-            {
-                for (int y = 0; y < 9; y++)
-                {
-                    if (game[x, y] == 0)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+        
 
         public bool Guesser()
         {
@@ -224,11 +206,6 @@ namespace Soduko
                                 {
                                     sudokuBoard[x, y] = 0;
                                     Guesser();
-
-                                    if (IsSolved(sudokuBoard))
-                                    {
-                                        return true;
-                                    }
                                 }
                             }
                         }
