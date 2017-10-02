@@ -24,9 +24,13 @@ namespace Soduko
 
             if (Solver()) //kör och kollar sant/falskt
             {
-                Console.WriteLine("Solved it for you!");
+                IsSolved();
+            }
+
+            if (IsSolved())
+            {
+                Console.WriteLine("Solved it for you2!");
                 PrintNumbers(sudokuBoard);
-                Thread.Sleep(155515151);
                 return true;
             }
             return false;
@@ -61,8 +65,11 @@ namespace Soduko
                 if (row == 2 || row == 5)
                     Console.WriteLine("---------------");
             }
+            if (IsSolved() == false)
+            {
+                Console.WriteLine("Processing Solver. . .\n");
 
-            Console.WriteLine("Processing Solver. . .\n");
+            }
         }
 
         public bool CellHasChanged(int[,] spel)
@@ -92,6 +99,16 @@ namespace Soduko
                 {
                     for (int y = 0; y < 9; y++)
                     {
+                        if (IsSolved())
+                        {
+                            Console.Clear();
+
+                            Console.WriteLine("This is your solution:");
+                            PrintNumbers(sudokuBoard);
+                            Console.ReadLine();
+                            break;
+                        }
+
                         //Hittar en cell utan värde
                         if (sudokuBoard[i, y] == 0)
                         {
@@ -124,7 +141,7 @@ namespace Soduko
 
                 return true;
             }
-            
+
             return false;
         }
 
@@ -162,22 +179,33 @@ namespace Soduko
             }
             return possibleNumbersLeft;
         }
-        
+
+        public bool IsSolved()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int y = 0; y < 9; y++)
+                {
+                    if (sudokuBoard[i, y] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
 
         public bool Guesser()
         {
             while (true)
             {
-
-                bool hasUnSolvedCells = false;
-
                 for (int x = 0; x < 9; x++)
                 {
                     for (int y = 0; y < 9; y++)
                     {
                         if (sudokuBoard[x, y] == 0)
                         {
-                            hasUnSolvedCells = true;
                             foreach (var number in GetPossibleNumbers(x, y))
                             {
                                 string newSudokuString = "";
@@ -206,6 +234,7 @@ namespace Soduko
                                 {
                                     sudokuBoard[x, y] = 0;
                                     Guesser();
+
                                 }
                             }
                         }
